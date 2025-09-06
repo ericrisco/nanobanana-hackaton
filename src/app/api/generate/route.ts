@@ -46,13 +46,13 @@ export async function POST(request: Request) {
         const imageMimeType = "image/jpeg";
 
         // 3. Prepare the prompt and image parts for the API
-        let prompt = `GENERATE AN IMAGE ONLY. Based on this satellite image, create a new, highly detailed visual artwork in a ${style} style, populated by ${population}.`;
+        let prompt = `GENERATE AN IMAGE ONLY. Based on this satellite image location, create a street-level view as if you were standing on the ground at this exact place. Show a ${style} style scene populated by ${population}.`;
 
         if (timePeriod !== 'Present Day') {
-            prompt += ` Set in the ${timePeriod} era.`;
+            prompt += ` Set the scene in the ${timePeriod} era with appropriate architecture, clothing, and atmosphere.`;
         }
 
-        prompt += ` Create a creative artistic interpretation. Do not include text, labels, or map elements. IMPORTANT: Return only an image, no text response.`;
+        prompt += ` The image should show what someone would see walking on the streets or standing in this location - buildings, streets, environment from ground level perspective. Do not show satellite/aerial views. IMPORTANT: Return only an image, no text response.`;
 
         const imageParts = [fileToGenerativePart(mapImageBase64, imageMimeType)];
 
