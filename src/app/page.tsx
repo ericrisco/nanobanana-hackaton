@@ -23,7 +23,7 @@ export default function Home() {
   const [generatedImage, setGeneratedImage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
-  const [errorDetails, setErrorDetails] = useState<{error?: string, message?: string, details?: any} | null>(null);
+  const [errorDetails, setErrorDetails] = useState<{error?: string, message?: string, details?: unknown} | null>(null);
   const [message, setMessage] = useState<string>('');
 
   useEffect(() => {
@@ -186,11 +186,13 @@ export default function Home() {
                   </div>
                 )}
                 
-                {errorDetails.details && (
+                {(errorDetails.details !== null && errorDetails.details !== undefined) && (
                   <div>
                     <h3 className="font-semibold text-gray-800 mb-2">Technical Details:</h3>
                     <pre className="text-sm text-gray-600 bg-gray-50 p-3 rounded border overflow-x-auto whitespace-pre-wrap">
-                      {typeof errorDetails.details === 'string' ? errorDetails.details : JSON.stringify(errorDetails.details, null, 2)}
+                      {typeof errorDetails.details === 'string' 
+                        ? errorDetails.details 
+                        : JSON.stringify(errorDetails.details, null, 2)}
                     </pre>
                   </div>
                 )}
