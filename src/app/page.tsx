@@ -77,6 +77,7 @@ export default function Home() {
           population: selectedPopulation,
           timePeriod: selectedTimePeriod,
           apiKey: geminiApiKey,
+          mapsApiKey: mapsApiKey,
         }),
       });
 

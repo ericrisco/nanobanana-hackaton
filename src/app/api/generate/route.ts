@@ -25,9 +25,9 @@ function fileToGenerativePart(base64: string, mimeType: string) {
 
 export async function POST(request: Request) {
     try {
-        const { latitude, longitude, style, population, timePeriod, apiKey } = await request.json();
+        const { latitude, longitude, style, population, timePeriod, apiKey, mapsApiKey } = await request.json();
 
-        if (!latitude || !longitude || !style || !population || !timePeriod || !apiKey) {
+        if (!latitude || !longitude || !style || !population || !timePeriod || !apiKey || !mapsApiKey) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
@@ -37,10 +37,6 @@ export async function POST(request: Request) {
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-image-preview" });
 
         // 1. Fetch the map image from Google Maps Static API
-        const mapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-        if (!mapsApiKey) {
-            throw new Error("Google Maps API key is not configured on the server.");
-        }
         const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&zoom=18&size=600x400&maptype=satellite&key=${mapsApiKey}`;
         
         // 2. Convert the fetched image to base64
