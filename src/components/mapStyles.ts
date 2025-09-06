@@ -1,0 +1,1 @@
+export const mapStyleLight = []; // Default Google Maps style
