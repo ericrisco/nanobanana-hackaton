@@ -2,7 +2,19 @@
 
 **Transform satellite imagery into artistic street-level interpretations using AI**
 
-Terraformer is an innovative web application that takes satellite imagery from any location on Earth and uses Google's Gemini AI to generate creative, street-level views populated by different inhabitants across various time periods and artistic styles.
+Terraformer is an innovative web application that takes satellite imagery from any location on Earth and uses Google's Gemini 2.5 Flash Image Preview (commonly known as "Nano Banana") to generate creative, street-level views populated by different inhabitants across various time periods and artistic styles.
+
+## 🍌 Nano Banana 48 Hour Challenge
+
+This project was created for the **Nano Banana 48 Hour Challenge**, hosted by Google DeepMind from September 6-7, 2025. The hackathon showcases the power of Gemini 2.5 Flash Image Preview ("Nano Banana"), Google's state-of-the-art image generation model that enables dynamic creation, world knowledge integration, and reality blending.
+
+**What makes this special:**
+- 🧠 **World Knowledge Integration**: The AI understands real locations and landmarks
+- 🎨 **Dynamic Visual Creation**: Transform any place with artistic styles and creative populations
+- 🔄 **Reality Blending**: Mix real satellite imagery with imaginative interpretations
+- 🗺️ **Geographic Intelligence**: Leverages Google Maps data for accurate location context
+
+The challenge was to build something that "transforms how we interact with visuals and deliver something that wasn't possible before" - and Terraformer does exactly that by turning any location on Earth into a personalized, artistic street-level experience.
 
 ## ✨ Features
 
@@ -27,7 +39,7 @@ Terraformer is an innovative web application that takes satellite imagery from a
 - **Frontend**: [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
 - **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
 - **Maps**: [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript) with [@react-google-maps/api](https://react-google-maps-api-docs.netlify.app/)
-- **AI**: [Google Gemini AI](https://ai.google.dev/) (gemini-2.5-flash-image-preview)
+- **AI**: [Google Gemini 2.5 Flash Image Preview](https://ai.google.dev/) ("Nano Banana")
 - **Deployment**: Optimized for Vercel/Netlify deployment
 
 ## 📋 Prerequisites
@@ -146,7 +158,7 @@ terraformer/
    - Check the error modal for detailed debugging information
 
 3. **API Rate Limits**
-   - Gemini AI has usage quotas - wait a few moments between generations
+   - Nano Banana (Gemini 2.5 Flash Image Preview) has usage quotas - wait a few moments between generations
    - Consider upgrading your Google AI Studio plan for higher limits
 
 ### Debug Mode
@@ -169,8 +181,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- [Google AI](https://ai.google.dev/) for the Gemini AI model
-- [Google Maps Platform](https://developers.google.com/maps) for mapping services
+- [Google DeepMind](https://deepmind.google/) for hosting the Nano Banana 48 Hour Challenge
+- [Google AI](https://ai.google.dev/) for the Gemini 2.5 Flash Image Preview ("Nano Banana") model
+- [Google Maps Platform](https://developers.google.com/maps) for mapping services and geographic intelligence
 - [Next.js](https://nextjs.org/) for the awesome React framework
 - [Tailwind CSS](https://tailwindcss.com/) for utility-first styling
 
@@ -184,6 +197,6 @@ If you have questions or need help:
 
 ---
 
-**Made with ❤️ for the AI + Maps hackathon**
+**Made with ❤️ for the Nano Banana 48 Hour Challenge by Google DeepMind**
 
-*Transform any place on Earth into your wildest artistic imagination!*
+*Transform any place on Earth into your wildest artistic imagination using the power of Nano Banana!* 🍌
