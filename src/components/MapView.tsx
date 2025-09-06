@@ -10,7 +10,7 @@ interface MapViewProps {
   mapsApiKey: string;
 }
 
-const ANDORRA_LA_VELLA = { lat: 42.5063, lng: 1.5218 };
+const GOOGLE_MOUNTAIN_VIEW = { lat: 37.4220656, lng: -122.0840897 };
 
 const MapView: React.FC<MapViewProps> = ({ setMarkerPosition, initialPosition, mapsApiKey }) => {
   const { isLoaded, loadError } = useJsApiLoader({
@@ -19,7 +19,7 @@ const MapView: React.FC<MapViewProps> = ({ setMarkerPosition, initialPosition, m
   });
 
   const [marker, setMarker] = useState<{ lat: number; lng: number } | null>(initialPosition);
-  const [center, setCenter] = useState<{ lat: number; lng: number }>(initialPosition || ANDORRA_LA_VELLA);
+  const [center, setCenter] = useState<{ lat: number; lng: number }>(initialPosition || GOOGLE_MOUNTAIN_VIEW);
   const mapRef = useRef<google.maps.Map | null>(null);
 
   // Update marker and center when initialPosition changes

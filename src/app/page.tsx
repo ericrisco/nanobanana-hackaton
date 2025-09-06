@@ -9,14 +9,14 @@ import TimePeriodSelector from '@/components/TimePeriodSelector';
 import LocationButtons from '@/components/LocationButtons';
 import SetupScreen from '@/components/SetupScreen';
 
-const ANDORRA_LA_VELLA = { lat: 42.5063, lng: 1.5218 };
+const GOOGLE_MOUNTAIN_VIEW = { lat: 37.4220656, lng: -122.0840897 };
 
 export default function Home() {
   const [geminiApiKey, setGeminiApiKey] = useState<string>('');
   const [mapsApiKey, setMapsApiKey] = useState<string>('');
   const [keysReady, setKeysReady] = useState<boolean>(false);
 
-  const [markerPosition, setMarkerPosition] = useState<{ lat: number; lng: number } | null>(ANDORRA_LA_VELLA);
+  const [markerPosition, setMarkerPosition] = useState<{ lat: number; lng: number } | null>(GOOGLE_MOUNTAIN_VIEW);
   const [selectedStyle, setSelectedStyle] = useState<string>('Realistic');
   const [selectedPopulation, setSelectedPopulation] = useState<string>('Real persons');
   const [selectedTimePeriod, setSelectedTimePeriod] = useState<string>('Present Day');
