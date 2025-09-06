@@ -39,7 +39,7 @@ export async function POST(request: Request) {
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-image-preview" });
 
         // 1. Fetch the map image from Google Maps Static API
-        const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&zoom=18&size=600x400&maptype=satellite&key=${mapsApiKey}`;
+        const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&zoom=18&size=600x400&maptype=satellite&markers=color:red%7C${latitude},${longitude}&key=${mapsApiKey}`;
         
         // 2. Convert the fetched image to base64
         const mapImageBase64 = await urlToBase64(mapUrl);
@@ -70,13 +70,13 @@ export async function POST(request: Request) {
                 styleDescription = `Strong ${style} aesthetic applied to the entire scene`;
         }
 
-        let prompt = `GENERATE AN IMAGE ONLY. Based on this satellite image location, create a FIRST-PERSON street-level view as if you were a person standing on the ground at this exact place looking around. Show what a human eye would see from pedestrian eye-level height (about 5-6 feet from ground). ${styleDescription}. The scene must be EXCLUSIVELY populated by ${population}. IMPORTANT: Only ${population} should be visible in the scene - no humans, no other creatures, ONLY ${population}. This must be a ground-level human perspective, NOT aerial or satellite view.`;
+        let prompt = `GENERATE AN IMAGE ONLY. Based on this satellite image, you can see a RED MARKER indicating the exact spot. Create a FIRST-PERSON street-level view as if you were a person standing EXACTLY WHERE THE RED MARKER IS LOCATED on the ground, looking around from that precise position. Show what a human eye would see from pedestrian eye-level height (about 5-6 feet from ground) from the red marker location. ${styleDescription}. The scene must be EXCLUSIVELY populated by ${population}. IMPORTANT: Only ${population} should be visible in the scene - no humans, no other creatures, ONLY ${population}. Focus on the area around the red marker position - this is your viewpoint. This must be a ground-level human perspective, NOT aerial or satellite view.`;
 
         if (timePeriod !== 'Present Day') {
             prompt += ` Set the scene in the ${timePeriod} era with appropriate architecture, clothing, and atmosphere for the ${population}.`;
         }
 
-        prompt += ` The image should show exactly what a person would see with their own eyes while walking on the streets or standing in this location - buildings in front of you, streets at your feet, horizon at eye level. Think of it as a street photography shot from human eye perspective. Remember: ONLY ${population} as inhabitants, no other living beings. Do not show satellite/aerial/drone/bird's eye views. Do not include any text, watermarks, labels, or Google Maps branding in the image. IMPORTANT: Return only an image, no text response.`;
+        prompt += ` The image should show exactly what a person would see with their own eyes while standing at the red marker position - buildings in front of you, streets at your feet, horizon at eye level. Think of it as a street photography shot from human eye perspective at the marker location. Remember: ONLY ${population} as inhabitants, no other living beings. Do not show satellite/aerial/drone/bird's eye views. Do not include the red marker itself in the final image - it's just to indicate where you're standing. Do not include any text, watermarks, labels, or Google Maps branding in the image. IMPORTANT: Return only an image, no text response.`;
 
         const imageParts = [fileToGenerativePart(mapImageBase64, imageMimeType)];
 
