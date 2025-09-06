@@ -106,8 +106,21 @@ export default function Home() {
     <main className="flex min-h-screen bg-white dark:bg-gray-900">
       {/* Left Panel */}
       <div className="w-1/3 border-r border-gray-200 dark:border-gray-700 flex flex-col bg-gray-50 dark:bg-gray-800">
-        <div className="p-4 border-b border-gray-200 flex justify-center items-center">
+        <div className="p-4 border-b border-gray-200 flex justify-between items-center">
             <h1 className="text-xl font-bold text-gray-800">Terraformer</h1>
+            <button
+              onClick={() => {
+                localStorage.removeItem('geminiApiKey');
+                localStorage.removeItem('mapsApiKey');
+                setKeysReady(false);
+                setGeminiApiKey('');
+                setMapsApiKey('');
+              }}
+              className="px-3 py-1 text-xs bg-red-100 text-red-700 border border-red-300 rounded-md hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+              title="Reset API Keys"
+            >
+              Reset Keys
+            </button>
         </div>
         <div className="flex flex-col h-full">
           <LocationButtons onLocationSelect={handleLocationSelect} />
