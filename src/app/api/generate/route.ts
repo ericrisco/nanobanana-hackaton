@@ -46,13 +46,37 @@ export async function POST(request: Request) {
         const imageMimeType = "image/jpeg";
 
         // 3. Prepare the prompt and image parts for the API
-        let prompt = `GENERATE AN IMAGE ONLY. Based on this satellite image location, create a street-level view as if you were standing on the ground at this exact place. Show a ${style} style scene populated by ${population}.`;
-
-        if (timePeriod !== 'Present Day') {
-            prompt += ` Set the scene in the ${timePeriod} era with appropriate architecture, clothing, and atmosphere.`;
+        let styleDescription = '';
+        switch(style.toLowerCase()) {
+            case 'on fire':
+                styleDescription = 'Everything must be engulfed in flames and fire - buildings burning, streets on fire, intense orange and red flames everywhere';
+                break;
+            case 'flooded':
+                styleDescription = 'The entire area must be completely flooded with water - streets underwater, buildings partially submerged, water everywhere';
+                break;
+            case 'destroyed':
+                styleDescription = 'Everything must be in ruins and completely destroyed - collapsed buildings, rubble, devastation everywhere';
+                break;
+            case 'futuristic':
+                styleDescription = 'Transform everything into a futuristic cyberpunk scene with neon lights, advanced technology, flying vehicles, holographic displays';
+                break;
+            case 'comic':
+                styleDescription = 'Render everything in vibrant cartoon/comic book style with bold colors, exaggerated features, comic book aesthetic';
+                break;
+            case 'realistic':
+                styleDescription = 'Maintain photorealistic quality with natural lighting and realistic textures';
+                break;
+            default:
+                styleDescription = `Strong ${style} aesthetic applied to the entire scene`;
         }
 
-        prompt += ` The image should show what someone would see walking on the streets or standing in this location - buildings, streets, environment from ground level perspective. Do not show satellite/aerial views. IMPORTANT: Return only an image, no text response.`;
+        let prompt = `GENERATE AN IMAGE ONLY. Based on this satellite image location, create a street-level view as if you were standing on the ground at this exact place. ${styleDescription}. The scene must be EXCLUSIVELY populated by ${population}. IMPORTANT: Only ${population} should be visible in the scene - no humans, no other creatures, ONLY ${population}.`;
+
+        if (timePeriod !== 'Present Day') {
+            prompt += ` Set the scene in the ${timePeriod} era with appropriate architecture, clothing, and atmosphere for the ${population}.`;
+        }
+
+        prompt += ` The image should show what someone would see walking on the streets or standing in this location - buildings, streets, environment from ground level perspective. Remember: ONLY ${population} as inhabitants, no other living beings. Do not show satellite/aerial views. Do not include any text, watermarks, labels, or Google Maps branding in the image. IMPORTANT: Return only an image, no text response.`;
 
         const imageParts = [fileToGenerativePart(mapImageBase64, imageMimeType)];
 
