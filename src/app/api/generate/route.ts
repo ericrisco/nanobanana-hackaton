@@ -70,13 +70,13 @@ export async function POST(request: Request) {
                 styleDescription = `Strong ${style} aesthetic applied to the entire scene`;
         }
 
-        let prompt = `GENERATE AN IMAGE ONLY. Based on this hybrid satellite image with street names, landmarks, and labels, you can see a RED MARKER indicating the exact spot. Use all visible information (street names, building labels, landmarks, POI names) to understand the exact location context. Create a FIRST-PERSON street-level view as if you were a person standing EXACTLY WHERE THE RED MARKER IS LOCATED on the ground, looking around from that precise position. Show what a human eye would see from pedestrian eye-level height (about 5-6 feet from ground) from the red marker location. ${styleDescription}. The scene must be EXCLUSIVELY populated by ${population}. IMPORTANT: Only ${population} should be visible in the scene - no humans, no other creatures, ONLY ${population}. Focus on the area around the red marker position - this is your viewpoint. This must be a ground-level human perspective, NOT aerial or satellite view.`;
+        let prompt = `Create a street-level photograph from the red marker location shown in this map. Generate only a visual image showing a ${style} scene with ${population} inhabitants. Stand at the red marker position and show what you would see at eye level. ${styleDescription}. Only ${population} should appear in the image - no other creatures. Return an image, not text.`;
 
         if (timePeriod !== 'Present Day') {
             prompt += ` Set the scene in the ${timePeriod} era with appropriate architecture, clothing, and atmosphere for the ${population}.`;
         }
 
-        prompt += ` The image should show exactly what a person would see with their own eyes while standing at the red marker position - buildings in front of you, streets at your feet, horizon at eye level. Think of it as a street photography shot from human eye perspective at the marker location. Remember: ONLY ${population} as inhabitants, no other living beings. Do not show satellite/aerial/drone/bird's eye views. Do not include the red marker itself in the final image - it's just to indicate where you're standing. Do not include any text, watermarks, labels, or Google Maps branding in the image. IMPORTANT: Return only an image, no text response.`;
+        prompt += ` Show a realistic street view from human eye level at the marker. Do not include the marker itself, any text, labels, or map elements in the final image. Generate only a photographic image, no text descriptions.`;
 
         const imageParts = [fileToGenerativePart(mapImageBase64, imageMimeType)];
 
