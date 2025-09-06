@@ -13,12 +13,12 @@ interface LocationButtonsProps {
 }
 
 const locations: Location[] = [
-  { name: 'Sagrada Familia', lat: 41.4036, lng: 2.1744 },
-  { name: 'Eiffel Tower', lat: 48.8584, lng: 2.2945 },
-  { name: 'Big Ben', lat: 51.4994, lng: -0.1245 },
-  { name: 'Andorra', lat: 42.5085, lng: 1.5339 },
-  { name: 'Times Square', lat: 40.7580, lng: -73.9855 },
-  { name: 'Golden Gate', lat: 37.8080, lng: -122.4755 }
+  { name: 'Sagrada Familia', lat: 41.40257803767475, lng: 2.1732777623883983 },
+  { name: 'Eiffel Tower', lat: 48.85621812639946, lng: 2.2976898891584367 },
+  { name: 'Big Ben', lat: 51.50084938916221, lng: -0.12146039590768407 },
+  { name: 'Times Square', lat: 40.75798429360665, lng: -73.98552951012392 },
+  { name: 'Golden Gate', lat: 37.809262497364884, lng: -122.47001919306939 },
+  { name: 'Giza Pyramids', lat: 29.977521522895263, lng: 31.13229822197485 }
 ];
 
 const LocationButtons: React.FC<LocationButtonsProps> = ({ onLocationSelect }) => {
