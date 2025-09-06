@@ -70,13 +70,13 @@ export async function POST(request: Request) {
                 styleDescription = `Strong ${style} aesthetic applied to the entire scene`;
         }
 
-        let prompt = `GENERATE AN IMAGE ONLY. Based on this satellite image location, create a street-level view as if you were standing on the ground at this exact place. ${styleDescription}. The scene must be EXCLUSIVELY populated by ${population}. IMPORTANT: Only ${population} should be visible in the scene - no humans, no other creatures, ONLY ${population}.`;
+        let prompt = `GENERATE AN IMAGE ONLY. Based on this satellite image location, create a FIRST-PERSON street-level view as if you were a person standing on the ground at this exact place looking around. Show what a human eye would see from pedestrian eye-level height (about 5-6 feet from ground). ${styleDescription}. The scene must be EXCLUSIVELY populated by ${population}. IMPORTANT: Only ${population} should be visible in the scene - no humans, no other creatures, ONLY ${population}. This must be a ground-level human perspective, NOT aerial or satellite view.`;
 
         if (timePeriod !== 'Present Day') {
             prompt += ` Set the scene in the ${timePeriod} era with appropriate architecture, clothing, and atmosphere for the ${population}.`;
         }
 
-        prompt += ` The image should show what someone would see walking on the streets or standing in this location - buildings, streets, environment from ground level perspective. Remember: ONLY ${population} as inhabitants, no other living beings. Do not show satellite/aerial views. Do not include any text, watermarks, labels, or Google Maps branding in the image. IMPORTANT: Return only an image, no text response.`;
+        prompt += ` The image should show exactly what a person would see with their own eyes while walking on the streets or standing in this location - buildings in front of you, streets at your feet, horizon at eye level. Think of it as a street photography shot from human eye perspective. Remember: ONLY ${population} as inhabitants, no other living beings. Do not show satellite/aerial/drone/bird's eye views. Do not include any text, watermarks, labels, or Google Maps branding in the image. IMPORTANT: Return only an image, no text response.`;
 
         const imageParts = [fileToGenerativePart(mapImageBase64, imageMimeType)];
 
