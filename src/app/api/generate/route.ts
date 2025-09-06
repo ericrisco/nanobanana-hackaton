@@ -39,7 +39,7 @@ export async function POST(request: Request) {
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-image-preview" });
 
         // 1. Fetch the map image from Google Maps Static API
-        const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&zoom=18&size=600x400&maptype=satellite&markers=color:red%7C${latitude},${longitude}&key=${mapsApiKey}`;
+        const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&zoom=18&size=600x400&maptype=hybrid&markers=color:red%7C${latitude},${longitude}&style=feature:poi|visibility:on&style=feature:transit|visibility:on&style=feature:road|element:labels|visibility:on&key=${mapsApiKey}`;
         
         // 2. Convert the fetched image to base64
         const mapImageBase64 = await urlToBase64(mapUrl);
@@ -70,7 +70,7 @@ export async function POST(request: Request) {
                 styleDescription = `Strong ${style} aesthetic applied to the entire scene`;
         }
 
-        let prompt = `GENERATE AN IMAGE ONLY. Based on this satellite image, you can see a RED MARKER indicating the exact spot. Create a FIRST-PERSON street-level view as if you were a person standing EXACTLY WHERE THE RED MARKER IS LOCATED on the ground, looking around from that precise position. Show what a human eye would see from pedestrian eye-level height (about 5-6 feet from ground) from the red marker location. ${styleDescription}. The scene must be EXCLUSIVELY populated by ${population}. IMPORTANT: Only ${population} should be visible in the scene - no humans, no other creatures, ONLY ${population}. Focus on the area around the red marker position - this is your viewpoint. This must be a ground-level human perspective, NOT aerial or satellite view.`;
+        let prompt = `GENERATE AN IMAGE ONLY. Based on this hybrid satellite image with street names, landmarks, and labels, you can see a RED MARKER indicating the exact spot. Use all visible information (street names, building labels, landmarks, POI names) to understand the exact location context. Create a FIRST-PERSON street-level view as if you were a person standing EXACTLY WHERE THE RED MARKER IS LOCATED on the ground, looking around from that precise position. Show what a human eye would see from pedestrian eye-level height (about 5-6 feet from ground) from the red marker location. ${styleDescription}. The scene must be EXCLUSIVELY populated by ${population}. IMPORTANT: Only ${population} should be visible in the scene - no humans, no other creatures, ONLY ${population}. Focus on the area around the red marker position - this is your viewpoint. This must be a ground-level human perspective, NOT aerial or satellite view.`;
 
         if (timePeriod !== 'Present Day') {
             prompt += ` Set the scene in the ${timePeriod} era with appropriate architecture, clothing, and atmosphere for the ${population}.`;
