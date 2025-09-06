@@ -26,6 +26,8 @@ function fileToGenerativePart(base64: string, mimeType: string) {
 export async function POST(request: Request) {
     try {
         const { latitude, longitude, style, population, timePeriod, apiKey, mapsApiKey } = await request.json();
+        
+        console.log("Request parameters:", { latitude, longitude, style, population, timePeriod });
 
         if (!latitude || !longitude || !style || !population || !timePeriod || !apiKey || !mapsApiKey) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -44,31 +46,46 @@ export async function POST(request: Request) {
         const imageMimeType = "image/jpeg";
 
         // 3. Prepare the prompt and image parts for the API
-        let prompt = `Based on this satellite image, generate a new, highly detailed image in a ${style} style, populated by ${population}.`;
+        let prompt = `GENERATE AN IMAGE ONLY. Based on this satellite image, create a new, highly detailed visual artwork in a ${style} style, populated by ${population}.`;
 
         if (timePeriod !== 'Present Day') {
-            prompt += ` Imagine the scene is taking place in the ${timePeriod} era.`;
+            prompt += ` Set in the ${timePeriod} era.`;
         }
 
-        prompt += ` The result should be a creative interpretation, not a literal copy. Do not include any text, labels, or map artifacts in the final image.`;
+        prompt += ` Create a creative artistic interpretation. Do not include text, labels, or map elements. IMPORTANT: Return only an image, no text response.`;
 
         const imageParts = [fileToGenerativePart(mapImageBase64, imageMimeType)];
 
         // 4. Call the model with the prompt and image
         const result = await model.generateContent([prompt, ...imageParts]);
         
+        // Log the full response for debugging
+        console.log("Full Gemini API response:", JSON.stringify(result.response, null, 2));
+        console.log("Response candidates:", result.response.candidates);
+        
         // 5. Process the response to extract the generated image
         const generatedImagePart = result.response.candidates?.[0].content.parts[0];
+        console.log("Generated image part:", generatedImagePart);
 
         if (generatedImagePart && 'inlineData' in generatedImagePart && generatedImagePart.inlineData) {
             const base64ImageData = generatedImagePart.inlineData.data;
             const mimeType = generatedImagePart.inlineData.mimeType || 'image/png';
             const imageDataUrl = `data:${mimeType};base64,${base64ImageData}`;
+            console.log("Successfully generated image with mimeType:", mimeType);
+            console.log("Image data length:", base64ImageData.length);
             return NextResponse.json({ imageData: imageDataUrl });
         } else {
             const textResponse = result.response.text();
             console.error("API did not return an image. Text response:", textResponse);
-            return NextResponse.json({ error: "The API did not return a valid image. It may have responded with text.", details: textResponse }, { status: 500 });
+            console.error("Response structure:", {
+                candidates: result.response.candidates,
+                parts: result.response.candidates?.[0]?.content?.parts
+            });
+            return NextResponse.json({ 
+                error: "Unable to generate image for this location/style combination. Try a different location or style.", 
+                message: "The AI couldn't create an image based on the current settings. This can happen with certain locations or style combinations.",
+                details: textResponse 
+            }, { status: 400 });
         }
 
     } catch (error: unknown) {
