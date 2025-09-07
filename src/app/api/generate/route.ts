@@ -88,22 +88,20 @@ export async function POST(request: Request) {
                 styleDescription = `Strong ${style} aesthetic applied to the entire scene`;
         }
 
-        let prompt = `Based on this reference image, create a faithful recreation that maintains the EXACT same scene composition and layout but rendered in ${style} style and populated EXCLUSIVELY by ${population} population. ${styleDescription}. 
+        let prompt = `Using this reference image as a base, CREATE A COMPLETELY NEW HIGH-RESOLUTION IMAGE that recreates the same scene with full detail. Do not modify the original - instead, generate an entirely new detailed image that uses the reference as inspiration for layout and composition. Render everything in ${style} style and populate EXCLUSIVELY with ${population} population. ${styleDescription}. 
 
-CRITICAL RULES:
-- MAINTAIN: Same number of buildings, structures, and elements in identical positions and scale
-- MAINTAIN: Same roads, landscape, and overall scene layout as shown in the reference image  
-- MAINTAIN: Same camera angle, perspective, and viewpoint as the reference
-- MAINTAIN: Same lighting conditions and time of day
+RECREATION RULES FOR NEW IMAGE GENERATION:
+- RECREATE: Same number of buildings, structures, and elements in identical positions and scale with FULL DETAIL
+- RECREATE: Same roads, landscape, and overall scene layout with enhanced detail and clarity
+- RECREATE: Same camera angle, perspective, and viewpoint but with crisp, high-resolution quality
+- RECREATE: Same lighting conditions and time of day with realistic lighting effects
 - PRESERVE LANDMARKS: Keep any iconic/famous buildings (Eiffel Tower, Big Ben, Sagrada Familia, etc.) recognizable with their distinctive features
-- DO NOT: Add new buildings, structures, or major elements that aren't in the original
-- DO NOT: Remove existing major structures or significantly alter the scene composition
-- POPULATION STRICT RULE: Scene must contain EXCLUSIVELY ${population} as inhabitants - NO exceptions
+- ADD RICH DETAIL: Include textures, shadows, atmospheric effects, and environmental details not visible in the low-resolution reference
+- POPULATE EXCLUSIVELY: Scene must contain ONLY ${population} as inhabitants with detailed characteristics
 - ZERO humans allowed if population is not "Real persons" 
-- ZERO other creatures or beings allowed - ONLY ${population}
-- All ${population} must be humanized (walking upright, dressed appropriately for the time period, acting like people)
-- If you see ANY other type of being in the reference, replace them ALL with ${population}
-- Create visual image only.`;
+- ZERO other creatures or beings allowed - ONLY ${population} with full detail and personality
+- All ${population} must be humanized (walking upright, dressed appropriately for the time period, acting like people) with individual characteristics
+- CREATE ENTIRELY NEW IMAGE: Do not edit the reference - generate a completely new detailed interpretation`;
 
         if (timePeriod !== 'Present Day') {
             let periodDetails = '';
@@ -149,12 +147,14 @@ CRITICAL RULES:
 
         prompt += ` 
 
-        FINAL VERIFICATION CHECKLIST:
-        ✓ Same scene layout and building positions as reference
-        ✓ ONLY ${population} population visible - no other beings
+        FINAL VERIFICATION CHECKLIST FOR NEW HIGH-RESOLUTION RECREATION:
+        ✓ Completely new detailed image generated (not modification of original)
+        ✓ Same scene layout and building positions as reference but with full detail
+        ✓ ONLY ${population} population visible with individual characteristics and detail
         ✓ All modern elements removed if time period is historical
-        ✓ Architecture and materials authentic to ${timePeriod}
-        ✓ ${style} artistic style applied throughout
+        ✓ Architecture and materials authentic to ${timePeriod} with rich textures and detail
+        ✓ ${style} artistic style applied throughout with high-resolution quality
+        ✓ Enhanced environmental details, lighting, shadows, and atmospheric effects
         ✓ Zero anachronisms - everything must belong to the specified time period`;
 
         const imageParts = [fileToGenerativePart(imageBase64, imageMimeType)];
