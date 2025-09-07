@@ -98,8 +98,11 @@ CRITICAL RULES:
 - PRESERVE LANDMARKS: Keep any iconic/famous buildings (Eiffel Tower, Big Ben, Sagrada Familia, etc.) recognizable with their distinctive features
 - DO NOT: Add new buildings, structures, or major elements that aren't in the original
 - DO NOT: Remove existing major structures or significantly alter the scene composition
-- POPULATE: Scene must ONLY contain ${population} population as inhabitants - humanized (walking, dressed appropriately, acting like people)
-- NO humans, NO other creatures, ONLY ${population} population
+- POPULATION STRICT RULE: Scene must contain EXCLUSIVELY ${population} as inhabitants - NO exceptions
+- ZERO humans allowed if population is not "Real persons" 
+- ZERO other creatures or beings allowed - ONLY ${population}
+- All ${population} must be humanized (walking upright, dressed appropriately for the time period, acting like people)
+- If you see ANY other type of being in the reference, replace them ALL with ${population}
 - Create visual image only.`;
 
         if (timePeriod !== 'Present Day') {
@@ -132,10 +135,27 @@ CRITICAL RULES:
                 default:
                     periodDetails = `Adapt architecture and environment to authentic ${timePeriod} period styling`;
             }
-            prompt += ` PERIOD TRANSFORMATION: ${periodDetails} Keep the same building positions, scale, and scene layout, but completely transform the architectural style to be historically accurate for ${timePeriod}. CRITICAL: If there are any iconic landmarks or famous buildings (like Eiffel Tower, Big Ben, Sagrada Familia, etc.), you MUST keep them recognizable and maintain their distinctive architectural features even when adapting to the historical period. Only adapt generic/non-landmark buildings. Include period-appropriate vehicles, clothing, and environmental details.`;
+            prompt += ` COMPLETE PERIOD TRANSFORMATION: ${periodDetails} Keep the same building positions, scale, and scene layout, but completely transform EVERYTHING to be historically accurate for ${timePeriod}. 
+            
+            STRICT ANACHRONISM ELIMINATION FOR ${timePeriod}:
+            - COMPLETELY REMOVE ALL modern elements: no modern cars, signs, technology, clothing, materials, or objects from later periods
+            - REPLACE ALL vehicles with period-appropriate transportation (horses, carriages, boats, etc. for early periods)
+            - REPLACE ALL signage, lighting, and infrastructure with period-accurate alternatives  
+            - REPLACE ALL modern materials (concrete, steel, glass) with period materials (stone, wood, thatch, etc.)
+            - REMOVE power lines, modern street lights, traffic signals, and contemporary urban furniture
+            - If there are iconic landmarks, keep them recognizable but remove any surrounding modern elements
+            - The scene must look like it was authentically photographed in ${timePeriod} - ZERO anachronisms allowed`;
         }
 
-        prompt += ` Remember: Stay faithful to the reference image structure while applying the ${style} style and ${population} population replacement only.`;
+        prompt += ` 
+
+        FINAL VERIFICATION CHECKLIST:
+        ✓ Same scene layout and building positions as reference
+        ✓ ONLY ${population} population visible - no other beings
+        ✓ All modern elements removed if time period is historical
+        ✓ Architecture and materials authentic to ${timePeriod}
+        ✓ ${style} artistic style applied throughout
+        ✓ Zero anachronisms - everything must belong to the specified time period`;
 
         const imageParts = [fileToGenerativePart(imageBase64, imageMimeType)];
 
