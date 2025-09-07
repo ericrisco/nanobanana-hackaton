@@ -88,7 +88,11 @@ export async function POST(request: Request) {
         console.log("Response candidates:", result.response.candidates);
         
         // 5. Process the response to extract the generated image
-        const generatedImagePart = result.response.candidates?.[0].content.parts[0];
+        const parts = result.response.candidates?.[0].content.parts || [];
+        console.log("All parts:", parts);
+        
+        // Find the part with inlineData (the image)
+        const generatedImagePart = parts.find(part => 'inlineData' in part);
         console.log("Generated image part:", generatedImagePart);
 
         if (generatedImagePart && 'inlineData' in generatedImagePart && generatedImagePart.inlineData) {
