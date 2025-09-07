@@ -95,6 +95,7 @@ CRITICAL RULES:
 - MAINTAIN: Same roads, landscape, and overall scene layout as shown in the reference image  
 - MAINTAIN: Same camera angle, perspective, and viewpoint as the reference
 - MAINTAIN: Same lighting conditions and time of day
+- PRESERVE LANDMARKS: Keep any iconic/famous buildings (Eiffel Tower, Big Ben, Sagrada Familia, etc.) recognizable with their distinctive features
 - DO NOT: Add new buildings, structures, or major elements that aren't in the original
 - DO NOT: Remove existing major structures or significantly alter the scene composition
 - POPULATE: Scene must ONLY contain ${population} population as inhabitants - humanized (walking, dressed appropriately, acting like people)
@@ -131,7 +132,7 @@ CRITICAL RULES:
                 default:
                     periodDetails = `Adapt architecture and environment to authentic ${timePeriod} period styling`;
             }
-            prompt += ` PERIOD TRANSFORMATION: ${periodDetails} Keep the same building positions, scale, and scene layout, but completely transform the architectural style to be historically accurate for ${timePeriod}. Include period-appropriate vehicles, clothing, and environmental details.`;
+            prompt += ` PERIOD TRANSFORMATION: ${periodDetails} Keep the same building positions, scale, and scene layout, but completely transform the architectural style to be historically accurate for ${timePeriod}. CRITICAL: If there are any iconic landmarks or famous buildings (like Eiffel Tower, Big Ben, Sagrada Familia, etc.), you MUST keep them recognizable and maintain their distinctive architectural features even when adapting to the historical period. Only adapt generic/non-landmark buildings. Include period-appropriate vehicles, clothing, and environmental details.`;
         }
 
         prompt += ` Remember: Stay faithful to the reference image structure while applying the ${style} style and ${population} population replacement only.`;
