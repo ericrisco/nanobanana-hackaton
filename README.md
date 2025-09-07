@@ -19,19 +19,20 @@ The challenge was to build something that "transforms how we interact with visua
 ## ✨ Features
 
 - 🗺️ **Interactive Map**: Click anywhere on the map or use preset famous locations
-- 🎨 **Multiple Art Styles**: Comic, Realistic, Futuristic, Destroyed, On Fire, Flooded
+- 🎨 **Multiple Art Styles**: Realistic, Anime, Comic, Pixel Art, Oil painting
 - 👾 **Creative Populations**: Real persons, Bananas, Robots, Zoo animals, Sea animals, Ghosts, Superheroes
-- ⏰ **Time Periods**: Present Day, Ancient Rome, Medieval Times, 1920s Art Deco, 1980s Cyberpunk, Distant Future, Prehistoric
+- ⏰ **Time Periods**: Present Day, Prehistoric, Ancient Rome, Medieval Times, Renaissance, 1920, 1940, 1950, 1980
 - 🔥 **Street-Level Perspective**: Generates first-person ground-level views as if you were walking there
 - 📱 **Responsive Design**: Works on desktop and mobile devices
 - 💾 **Download Generated Images**: Save your AI-generated artwork locally
+- 🗺️ **Reference Map Viewer**: See the exact Google Maps image used by the AI for generation
 
 ## 🚀 How It Works
 
 1. **Drop a Pin**: Click anywhere on the map to select a location (or use preset locations like Sagrada Familia, Eiffel Tower, etc.)
 2. **Choose Parameters**: Select your desired style, population, and time period
 3. **Generate**: Hit the GENERATE button and let AI create magic
-4. **View & Download**: Your unique street-level interpretation appears, ready to be saved
+4. **View & Download**: Your unique street-level interpretation appears, ready to be saved. Click "Map Reference" to see the exact map image the AI used for context
 
 ## 🛠️ Tech Stack
 
@@ -131,9 +132,10 @@ terraformer/
 
 ### Example Generations
 
-- **Times Square + Comic Style + Bananas + 1980s**: A vibrant comic-book street view of Times Square populated entirely by bananas in 80s aesthetic
-- **Eiffel Tower + On Fire + Robots + Medieval**: A burning medieval Paris with robots roaming the streets around the Eiffel Tower
-- **Big Ben + Flooded + Sea Animals + Present Day**: Modern London streets underwater with sea creatures swimming around Big Ben
+- **Times Square + Comic Style + Bananas + 1980**: A vibrant comic-book street view of Times Square populated entirely by humanized bananas in 80s attire
+- **Eiffel Tower + Anime Style + Robots + Medieval**: Medieval Paris in anime style with robots dressed as knights roaming the streets
+- **Big Ben + Oil Painting Style + Sea Animals + Renaissance**: Renaissance London as a classical oil painting with sea creatures in period clothing
+- **Sagrada Familia + Pixel Art + Ghosts + 1950**: 1950s Barcelona rendered in retro pixel art with friendly ghosts in vintage outfits
 
 ### Available Preset Locations
 
