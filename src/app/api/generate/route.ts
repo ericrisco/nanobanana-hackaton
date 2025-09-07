@@ -39,7 +39,7 @@ export async function POST(request: Request) {
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-image-preview" });
 
         // 1. Fetch the map image from Google Maps Static API
-        const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&zoom=15&size=600x400&maptype=roadmap&markers=color:red%7C${latitude},${longitude}&style=feature:poi|visibility:on&style=feature:transit|visibility:on&style=feature:road|element:labels|visibility:on&key=${mapsApiKey}`;
+        const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&zoom=15&size=512x512&maptype=roadmap&markers=color:red%7C${latitude},${longitude}&style=feature:poi|visibility:on&style=feature:transit|visibility:on&style=feature:road|element:labels|visibility:on&key=${mapsApiKey}`;
         
         // 2. Convert the fetched image to base64
         const mapImageBase64 = await urlToBase64(mapUrl);
@@ -70,13 +70,13 @@ export async function POST(request: Request) {
                 styleDescription = `Strong ${style} aesthetic applied to the entire scene`;
         }
 
-        let prompt = `Create a street-level photograph from the red marker location shown in this road map. Use the street layout, building positions, and landmarks visible in the map to generate a realistic street-level view. Generate only a visual image showing a ${style} scene with ${population} inhabitants. Stand at the red marker position and show what you would see at eye level. ${styleDescription}. Only ${population} should appear in the image - no other creatures. Return an image, not text.`;
+        let prompt = `Generate a street-level photo from the red marker location. Show a ${style} scene with ${population}. ${styleDescription}. View from human eye level. Only show ${population} - no other beings. Create visual image only.`;
 
         if (timePeriod !== 'Present Day') {
             prompt += ` Set the scene in the ${timePeriod} era with appropriate architecture, clothing, and atmosphere for the ${population}.`;
         }
 
-        prompt += ` Show a realistic street view from human eye level at the marker. Do not include the marker itself, any text, labels, or map elements in the final image. Generate only a photographic image, no text descriptions.`;
+        prompt += ` Generate image only - no text or descriptions.`;
 
         const imageParts = [fileToGenerativePart(mapImageBase64, imageMimeType)];
 
