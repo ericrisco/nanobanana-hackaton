@@ -10,11 +10,12 @@ interface MapViewProps {
   setMarkerPosition: (position: { lat: number; lng: number }) => void;
   initialPosition: { lat: number; lng: number } | null;
   mapsApiKey: string;
+  setStreetViewPov?: (pov: {heading: number, pitch: number} | null) => void;
 }
 
 const GOOGLE_MOUNTAIN_VIEW = { lat: 37.4220656, lng: -122.0840897 };
 
-const MapView: React.FC<MapViewProps> = ({ setMarkerPosition, initialPosition, mapsApiKey }) => {
+const MapView: React.FC<MapViewProps> = ({ setMarkerPosition, initialPosition, mapsApiKey, setStreetViewPov }) => {
   const { isLoaded, loadError } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: mapsApiKey,
@@ -28,6 +29,7 @@ const MapView: React.FC<MapViewProps> = ({ setMarkerPosition, initialPosition, m
   const [checkingStreetView, setCheckingStreetView] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>('');
   const [streetViewReady, setStreetViewReady] = useState<boolean>(false);
+  const [currentStreetViewPov, setCurrentStreetViewPov] = useState<{heading: number, pitch: number} | null>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
   const streetViewRef = useRef<google.maps.StreetViewPanorama | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -39,14 +41,13 @@ const MapView: React.FC<MapViewProps> = ({ setMarkerPosition, initialPosition, m
     setCheckingStreetView(true);
     setStreetViewReady(false);
     
-    // Throttle para evitar demasiadas solicitudes
     setTimeout(() => {
       const streetViewService = new google.maps.StreetViewService();
       
       streetViewService.getPanorama(
         {
           location: position,
-          radius: 100, // Aumentar el radio para mejor disponibilidad
+          radius: 100,
           source: google.maps.StreetViewSource.OUTDOOR,
         },
         (data, status) => {
@@ -60,7 +61,7 @@ const MapView: React.FC<MapViewProps> = ({ setMarkerPosition, initialPosition, m
           }
         }
       );
-    }, 500); // Delay de 500ms para throttling
+    }, 500);
   }, [isLoaded]);
 
   // Initialize Google Places Autocomplete
@@ -81,6 +82,8 @@ const MapView: React.FC<MapViewProps> = ({ setMarkerPosition, initialPosition, m
           setMarker(position);
           setCenter(position);
           setMarkerPosition(position);
+          setCurrentStreetViewPov(null);
+          setStreetViewPov?.(null);
           
           if (mapRef.current) {
             mapRef.current.panTo(position);
@@ -127,6 +130,8 @@ const MapView: React.FC<MapViewProps> = ({ setMarkerPosition, initialPosition, m
     const position = { lat, lng };
     setMarker(position);
     setMarkerPosition(position);
+    setCurrentStreetViewPov(null);
+    setStreetViewPov?.(null);
     checkStreetViewAvailability(position);
   };
 
@@ -222,10 +227,27 @@ const MapView: React.FC<MapViewProps> = ({ setMarkerPosition, initialPosition, m
             onLoad={(streetView) => {
               if (streetView) {
                 streetViewRef.current = streetView;
-                // Configurar la posición después de cargar con manejo de errores
                 try {
                   streetView.setPosition(marker);
                   streetView.setVisible(true);
+                  
+                  const initialPov = streetView.getPov();
+                  const povData = {
+                    heading: initialPov.heading || 0,
+                    pitch: initialPov.pitch || 0
+                  };
+                  setCurrentStreetViewPov(povData);
+                  setStreetViewPov?.(povData);
+                  streetView.addListener('pov_changed', () => {
+                    const pov = streetView.getPov();
+                    const povData = {
+                      heading: pov.heading || 0,
+                      pitch: pov.pitch || 0
+                    };
+                    setCurrentStreetViewPov(povData);
+                    setStreetViewPov?.(povData);
+                  });
+                  
                 } catch (error) {
                   console.error('Error loading Street View:', error);
                   setStreetViewAvailable(false);

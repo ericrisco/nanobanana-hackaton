@@ -21,6 +21,7 @@ export default function Home() {
   const [selectedTimePeriod, setSelectedTimePeriod] = useState<string>('Present Day');
   const [generatedImage, setGeneratedImage] = useState<string>('');
   const [referenceMapUrl, setReferenceMapUrl] = useState<string>('');
+  const [streetViewPov, setStreetViewPov] = useState<{heading: number, pitch: number} | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [errorDetails, setErrorDetails] = useState<{error?: string, message?: string, details?: unknown} | null>(null);
@@ -76,6 +77,7 @@ export default function Home() {
           style: selectedStyle,
           population: selectedPopulation,
           timePeriod: selectedTimePeriod,
+          streetViewPov: streetViewPov,
           apiKey: geminiApiKey,
           mapsApiKey: mapsApiKey,
         }),
@@ -143,7 +145,12 @@ export default function Home() {
         </div>
         <div className="flex flex-col h-full">
           <div className="flex-1 min-h-0">
-            <MapView setMarkerPosition={setMarkerPosition} initialPosition={markerPosition} mapsApiKey={mapsApiKey} />
+            <MapView 
+              setMarkerPosition={setMarkerPosition} 
+              initialPosition={markerPosition} 
+              mapsApiKey={mapsApiKey} 
+              setStreetViewPov={setStreetViewPov}
+            />
           </div>
         </div>
         <div className="p-3 border-t border-gray-200 dark:border-gray-700 space-y-4">

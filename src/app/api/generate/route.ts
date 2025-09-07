@@ -25,9 +25,9 @@ function fileToGenerativePart(base64: string, mimeType: string) {
 
 export async function POST(request: Request) {
     try {
-        const { latitude, longitude, style, population, timePeriod, apiKey, mapsApiKey } = await request.json();
+        const { latitude, longitude, style, population, timePeriod, streetViewPov, apiKey, mapsApiKey } = await request.json();
         
-        console.log("Request parameters:", { latitude, longitude, style, population, timePeriod });
+        console.log("Request parameters:", { latitude, longitude, style, population, timePeriod, streetViewPov });
 
         if (!latitude || !longitude || !style || !population || !timePeriod || !apiKey || !mapsApiKey) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -44,7 +44,11 @@ export async function POST(request: Request) {
         const imageMimeType = "image/jpeg";
         
         // Try Street View first
-        const streetViewUrl = `https://maps.googleapis.com/maps/api/streetview?size=512x512&location=${latitude},${longitude}&fov=90&pitch=0&heading=0&key=${mapsApiKey}`;
+        const heading = streetViewPov?.heading ?? 0;
+        const pitch = streetViewPov?.pitch ?? 0;
+        const streetViewUrl = `https://maps.googleapis.com/maps/api/streetview?size=512x512&location=${latitude},${longitude}&fov=90&pitch=${pitch}&heading=${heading}&key=${mapsApiKey}`;
+        
+        console.log("Street View POV:", streetViewPov, "-> heading:", heading, "pitch:", pitch);
         
         try {
             console.log("Trying Street View:", streetViewUrl);
@@ -84,13 +88,23 @@ export async function POST(request: Request) {
                 styleDescription = `Strong ${style} aesthetic applied to the entire scene`;
         }
 
-        let prompt = `Based on this street-level reference image, generate a new street-level photo showing a ${style} scene populated EXCLUSIVELY by ${population} population. ${styleDescription}. CRITICAL: The scene must ONLY contain ${population} population as inhabitants - they should be humanized (walking, dressed like humans, acting like people). NO humans, NO other creatures, ONLY ${population} population. View from human eye level. Create visual image only.`;
+        let prompt = `Based on this reference image, create a faithful recreation that maintains the EXACT same scene composition, architecture, and environment but rendered in ${style} style and populated EXCLUSIVELY by ${population} population. ${styleDescription}. 
+
+CRITICAL RULES:
+- Keep the SAME buildings, structures, roads, and landscape as shown in the reference image
+- DO NOT add new buildings, structures, or elements that aren't in the original
+- DO NOT remove or significantly alter existing architecture 
+- The scene must ONLY contain ${population} population as inhabitants - humanized (walking, dressed appropriately, acting like people)
+- NO humans, NO other creatures, ONLY ${population} population
+- Maintain the same camera angle, perspective, and viewpoint as the reference
+- Keep the same lighting conditions and time of day
+- Create visual image only.`;
 
         if (timePeriod !== 'Present Day') {
-            prompt += ` Set the scene in the ${timePeriod} era with appropriate architecture, clothing, and atmosphere for the ${population} population.`;
+            prompt += ` EXCEPTION: You may adapt clothing and small period-appropriate details for the ${timePeriod} era, but keep the core architecture and scene structure identical.`;
         }
 
-        prompt += ` Remember: ONLY ${population} population acting as the inhabitants. Generate image only - no text or descriptions.`;
+        prompt += ` Remember: Stay faithful to the reference image structure while applying the ${style} style and ${population} population replacement only.`;
 
         const imageParts = [fileToGenerativePart(imageBase64, imageMimeType)];
 
