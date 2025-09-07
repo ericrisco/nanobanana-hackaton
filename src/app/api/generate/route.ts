@@ -76,7 +76,7 @@ export async function POST(request: Request) {
             prompt += ` Set the scene in the ${timePeriod} era with appropriate architecture, clothing, and atmosphere for the ${population}.`;
         }
 
-        prompt += ` Remember: ZERO humans in the image, ONLY ${population} acting as the inhabitants. Generate image only - no text or descriptions.`;
+        prompt += ` Remember: ONLY ${population} acting as the inhabitants. Generate image only - no text or descriptions.`;
 
         const imageParts = [fileToGenerativePart(mapImageBase64, imageMimeType)];
 
