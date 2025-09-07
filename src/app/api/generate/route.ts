@@ -48,23 +48,20 @@ export async function POST(request: Request) {
         // 3. Prepare the prompt and image parts for the API
         let styleDescription = '';
         switch(style.toLowerCase()) {
-            case 'on fire':
-                styleDescription = 'Everything must be engulfed in flames and fire - buildings burning, streets on fire, intense orange and red flames everywhere';
-                break;
-            case 'flooded':
-                styleDescription = 'The entire area must be completely flooded with water - streets underwater, buildings partially submerged, water everywhere';
-                break;
-            case 'destroyed':
-                styleDescription = 'Everything must be in ruins and completely destroyed - collapsed buildings, rubble, devastation everywhere';
-                break;
-            case 'futuristic':
-                styleDescription = 'Transform everything into a futuristic cyberpunk scene with neon lights, advanced technology, flying vehicles, holographic displays';
-                break;
-            case 'comic':
-                styleDescription = 'Render everything in vibrant cartoon/comic book style with bold colors, exaggerated features, comic book aesthetic';
-                break;
             case 'realistic':
                 styleDescription = 'Maintain photorealistic quality with natural lighting and realistic textures';
+                break;
+            case 'anime':
+                styleDescription = 'Render everything in anime/manga style with large expressive eyes, vibrant colors, and characteristic anime aesthetic';
+                break;
+            case 'comic':
+                styleDescription = 'Render everything in vibrant cartoon/comic book style with bold colors, exaggerated features, and comic book aesthetic';
+                break;
+            case 'pixel art':
+                styleDescription = 'Transform everything into retro 8-bit/16-bit pixel art style with pixelated textures, limited color palette, and classic video game aesthetic';
+                break;
+            case 'oil painting':
+                styleDescription = 'Render everything as a classical oil painting with rich textures, visible brushstrokes, and the warm aesthetic of traditional fine art';
                 break;
             default:
                 styleDescription = `Strong ${style} aesthetic applied to the entire scene`;

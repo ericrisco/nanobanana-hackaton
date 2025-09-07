@@ -7,7 +7,7 @@ interface TimePeriodSelectorProps {
   setSelectedTimePeriod: (timePeriod: string) => void;
 }
 
-const timePeriods = ["Present Day", "Ancient Rome", "Medieval Times", "1920s Art Deco", "1980s Cyberpunk", "Distant Future", "Prehistoric"];
+const timePeriods = ["Present Day", "Prehistoric", "Ancient Rome", "Medieval Times", "Renaissance", "1920", "1940", "1950", "1980"];
 
 const TimePeriodSelector: React.FC<TimePeriodSelectorProps> = ({ selectedTimePeriod, setSelectedTimePeriod }) => {
   return (

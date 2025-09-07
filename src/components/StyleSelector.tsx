@@ -7,7 +7,7 @@ interface StyleSelectorProps {
   setSelectedStyle: (style: string) => void;
 }
 
-const styles = ["Comic", "Realistic", "Futuristic", "Destroyed", "On Fire", "Flooded"];
+const styles = ["Realistic", "Anime", "Comic", "Pixel Art", "Oil painting"];
 
 const StyleSelector: React.FC<StyleSelectorProps> = ({ selectedStyle, setSelectedStyle }) => {
   return (
