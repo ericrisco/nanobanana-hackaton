@@ -88,20 +88,50 @@ export async function POST(request: Request) {
                 styleDescription = `Strong ${style} aesthetic applied to the entire scene`;
         }
 
-        let prompt = `Based on this reference image, create a faithful recreation that maintains the EXACT same scene composition, architecture, and environment but rendered in ${style} style and populated EXCLUSIVELY by ${population} population. ${styleDescription}. 
+        let prompt = `Based on this reference image, create a faithful recreation that maintains the EXACT same scene composition and layout but rendered in ${style} style and populated EXCLUSIVELY by ${population} population. ${styleDescription}. 
 
 CRITICAL RULES:
-- Keep the SAME buildings, structures, roads, and landscape as shown in the reference image
-- DO NOT add new buildings, structures, or elements that aren't in the original
-- DO NOT remove or significantly alter existing architecture 
-- The scene must ONLY contain ${population} population as inhabitants - humanized (walking, dressed appropriately, acting like people)
+- MAINTAIN: Same number of buildings, structures, and elements in identical positions and scale
+- MAINTAIN: Same roads, landscape, and overall scene layout as shown in the reference image  
+- MAINTAIN: Same camera angle, perspective, and viewpoint as the reference
+- MAINTAIN: Same lighting conditions and time of day
+- DO NOT: Add new buildings, structures, or major elements that aren't in the original
+- DO NOT: Remove existing major structures or significantly alter the scene composition
+- POPULATE: Scene must ONLY contain ${population} population as inhabitants - humanized (walking, dressed appropriately, acting like people)
 - NO humans, NO other creatures, ONLY ${population} population
-- Maintain the same camera angle, perspective, and viewpoint as the reference
-- Keep the same lighting conditions and time of day
 - Create visual image only.`;
 
         if (timePeriod !== 'Present Day') {
-            prompt += ` EXCEPTION: You may adapt clothing and small period-appropriate details for the ${timePeriod} era, but keep the core architecture and scene structure identical.`;
+            let periodDetails = '';
+            switch(timePeriod) {
+                case 'Prehistoric':
+                    periodDetails = 'Replace modern buildings with primitive huts, caves, or basic stone structures. Add natural vegetation, dirt paths instead of paved roads, primitive tools and fire pits.';
+                    break;
+                case 'Ancient Rome':
+                    periodDetails = 'Transform buildings into Roman architecture with columns, marble, terracotta roofs, aqueducts, Roman roads with cobblestones, forums, and classical proportions.';
+                    break;
+                case 'Medieval Times':
+                    periodDetails = 'Redesign as medieval architecture with stone castles, wooden houses with thatched roofs, narrow cobblestone streets, market squares, and Gothic elements.';
+                    break;
+                case 'Renaissance':
+                    periodDetails = 'Style buildings with Renaissance architecture featuring symmetry, arches, domes, ornate facades, classical proportions, and elegant urban planning.';
+                    break;
+                case '1920':
+                    periodDetails = 'Transform into 1920s Art Deco architecture with geometric patterns, vertical emphasis, ornate metalwork, and period-appropriate signage and vehicles.';
+                    break;
+                case '1940':
+                    periodDetails = 'Style as 1940s architecture with streamline moderne, brick buildings, period-appropriate cars, wartime atmosphere, and mid-century urban design.';
+                    break;
+                case '1950':
+                    periodDetails = 'Redesign with 1950s suburban/urban architecture, ranch-style buildings, classic cars, neon signs, and post-war optimistic styling.';
+                    break;
+                case '1980':
+                    periodDetails = 'Transform into 1980s architecture with postmodern design, bold colors, geometric shapes, neon lighting, and characteristic 80s urban aesthetic.';
+                    break;
+                default:
+                    periodDetails = `Adapt architecture and environment to authentic ${timePeriod} period styling`;
+            }
+            prompt += ` PERIOD TRANSFORMATION: ${periodDetails} Keep the same building positions, scale, and scene layout, but completely transform the architectural style to be historically accurate for ${timePeriod}. Include period-appropriate vehicles, clothing, and environmental details.`;
         }
 
         prompt += ` Remember: Stay faithful to the reference image structure while applying the ${style} style and ${population} population replacement only.`;
