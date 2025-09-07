@@ -97,7 +97,10 @@ export async function POST(request: Request) {
             const imageDataUrl = `data:${mimeType};base64,${base64ImageData}`;
             console.log("Successfully generated image with mimeType:", mimeType);
             console.log("Image data length:", base64ImageData.length);
-            return NextResponse.json({ imageData: imageDataUrl });
+            return NextResponse.json({ 
+                imageData: imageDataUrl,
+                referenceMapUrl: mapUrl 
+            });
         } else {
             const textResponse = result.response.text();
             console.error("API did not return an image. Text response:", textResponse);

@@ -21,6 +21,7 @@ export default function Home() {
   const [selectedPopulation, setSelectedPopulation] = useState<string>('Real persons');
   const [selectedTimePeriod, setSelectedTimePeriod] = useState<string>('Present Day');
   const [generatedImage, setGeneratedImage] = useState<string>('');
+  const [referenceMapUrl, setReferenceMapUrl] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [errorDetails, setErrorDetails] = useState<{error?: string, message?: string, details?: unknown} | null>(null);
@@ -65,6 +66,7 @@ export default function Home() {
     setErrorDetails(null);
     setMessage('');
     setGeneratedImage('');
+    setReferenceMapUrl('');
 
     try {
       const response = await fetch('/api/generate', {
@@ -91,6 +93,9 @@ export default function Home() {
       }
 
       setGeneratedImage(data.imageData);
+      if(data.referenceMapUrl) {
+        setReferenceMapUrl(data.referenceMapUrl);
+      }
       if(data.message) {
         setMessage(data.message);
       }
@@ -165,7 +170,7 @@ export default function Home() {
 
       {/* Right Panel */}
       <div className="w-2/3">
-        <ImageDisplay generatedImage={generatedImage} isLoading={isLoading} />
+        <ImageDisplay generatedImage={generatedImage} isLoading={isLoading} referenceMapUrl={referenceMapUrl} />
       </div>
 
       {/* Error Modal */}
