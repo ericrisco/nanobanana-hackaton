@@ -97,10 +97,12 @@ RECREATION RULES FOR NEW IMAGE GENERATION:
 - RECREATE: Same lighting conditions and time of day with realistic lighting effects
 - PRESERVE LANDMARKS: Keep any iconic/famous buildings (Eiffel Tower, Big Ben, Sagrada Familia, etc.) recognizable with their distinctive features
 - ADD RICH DETAIL: Include textures, shadows, atmospheric effects, and environmental details not visible in the low-resolution reference
-- POPULATE EXCLUSIVELY: Scene must contain ONLY ${population} as inhabitants with detailed characteristics
-- ZERO humans allowed if population is not "Real persons" 
-- ZERO other creatures or beings allowed - ONLY ${population} with full detail and personality
-- All ${population} must be humanized (walking upright, dressed appropriately for the time period, acting like people) with individual characteristics
+- POPULATION ABSOLUTE RULE: Scene must contain EXCLUSIVELY AND ONLY ${population} as inhabitants - THIS IS NON-NEGOTIABLE
+- IF population is NOT "Real persons": ABSOLUTELY ZERO humans allowed - NOT A SINGLE HUMAN BEING
+- ZERO other creatures, animals, beings, or life forms allowed - ONLY ${population} - NO EXCEPTIONS WHATSOEVER
+- FORBIDDEN: Any other type of inhabitant than ${population} - this rule CANNOT be broken under any circumstances
+- MANDATORY: All ${population} must be humanized (walking upright, dressed appropriately for the time period, acting like people) with individual characteristics
+- STRICT ENFORCEMENT: If you see ANY other type of being in the reference image, you MUST replace them ALL with ${population} - NO exceptions
 - CREATE ENTIRELY NEW IMAGE: Do not edit the reference - generate a completely new detailed interpretation`;
 
         if (timePeriod !== 'Present Day') {
@@ -147,10 +149,12 @@ RECREATION RULES FOR NEW IMAGE GENERATION:
 
         prompt += ` 
 
+        CRITICAL POPULATION WARNING: The image must show ONLY ${population} as inhabitants. If ${population} is "Bananas", show ONLY humanized bananas. If ${population} is "Robots", show ONLY robots. If ${population} is "Zoo animals", show ONLY zoo animals. NO mixing of populations allowed. NO humans unless specifically "Real persons" is selected.
+
         FINAL VERIFICATION CHECKLIST FOR NEW HIGH-RESOLUTION RECREATION:
         ✓ Completely new detailed image generated (not modification of original)
         ✓ Same scene layout and building positions as reference but with full detail
-        ✓ ONLY ${population} population visible with individual characteristics and detail
+        ✓ EXCLUSIVELY ${population} population visible - ZERO other inhabitants of any type allowed
         ✓ All modern elements removed if time period is historical
         ✓ Architecture and materials authentic to ${timePeriod} with rich textures and detail
         ✓ ${style} artistic style applied throughout with high-resolution quality
