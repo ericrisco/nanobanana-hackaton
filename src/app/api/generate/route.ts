@@ -70,13 +70,13 @@ export async function POST(request: Request) {
                 styleDescription = `Strong ${style} aesthetic applied to the entire scene`;
         }
 
-        let prompt = `Generate a street-level photo from the red marker location. Show a ${style} scene with ${population}. ${styleDescription}. View from human eye level. Only show ${population} - no other beings. Create visual image only.`;
+        let prompt = `Generate a street-level photo from the red marker location. Show a ${style} scene populated EXCLUSIVELY by ${population}. ${styleDescription}. CRITICAL: The scene must ONLY contain ${population} as inhabitants - they should be humanized (walking, dressed like humans, acting like people). NO humans, NO other creatures, ONLY ${population}. If it's bananas, show bananas dressed and acting like people. If it's robots, show robots behaving like humans. View from human eye level. Create visual image only.`;
 
         if (timePeriod !== 'Present Day') {
             prompt += ` Set the scene in the ${timePeriod} era with appropriate architecture, clothing, and atmosphere for the ${population}.`;
         }
 
-        prompt += ` Generate image only - no text or descriptions.`;
+        prompt += ` Remember: ZERO humans in the image, ONLY ${population} acting as the inhabitants. Generate image only - no text or descriptions.`;
 
         const imageParts = [fileToGenerativePart(mapImageBase64, imageMimeType)];
 
