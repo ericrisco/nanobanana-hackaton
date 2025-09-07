@@ -6,7 +6,6 @@ import MapView from '@/components/MapView';
 import StyleSelector from '@/components/StyleSelector';
 import PopulationSelector from '@/components/PopulationSelector';
 import TimePeriodSelector from '@/components/TimePeriodSelector';
-import LocationButtons from '@/components/LocationButtons';
 import SetupScreen from '@/components/SetupScreen';
 
 const GOOGLE_MOUNTAIN_VIEW = { lat: 37.4220656, lng: -122.0840897 };
@@ -39,9 +38,6 @@ export default function Home() {
   }, []);
 
 
-  const handleLocationSelect = (location: { lat: number; lng: number }) => {
-    setMarkerPosition(location);
-  };
 
   const handleKeysSet = (gKey: string, mKey: string) => {
     localStorage.setItem('geminiApiKey', gKey);
@@ -146,7 +142,6 @@ export default function Home() {
             </button>
         </div>
         <div className="flex flex-col h-full">
-          <LocationButtons onLocationSelect={handleLocationSelect} />
           <div className="flex-1 min-h-0">
             <MapView setMarkerPosition={setMarkerPosition} initialPosition={markerPosition} mapsApiKey={mapsApiKey} />
           </div>

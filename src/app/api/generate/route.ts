@@ -38,12 +38,29 @@ export async function POST(request: Request) {
         // Using the exact model name from the user's latest instruction
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-image-preview" });
 
-        // 1. Fetch the map image from Google Maps Static API
-        const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&zoom=15&size=512x512&maptype=roadmap&markers=color:red%7C${latitude},${longitude}&style=feature:poi|visibility:on&style=feature:transit|visibility:on&style=feature:road|element:labels|visibility:on&key=${mapsApiKey}`;
-        
-        // 2. Convert the fetched image to base64
-        const mapImageBase64 = await urlToBase64(mapUrl);
+        // 1. Try to fetch Street View image first, fallback to roadmap
+        let referenceImageUrl = '';
+        let imageBase64 = '';
         const imageMimeType = "image/jpeg";
+        
+        // Try Street View first
+        const streetViewUrl = `https://maps.googleapis.com/maps/api/streetview?size=512x512&location=${latitude},${longitude}&fov=90&pitch=0&heading=0&key=${mapsApiKey}`;
+        
+        try {
+            console.log("Trying Street View:", streetViewUrl);
+            imageBase64 = await urlToBase64(streetViewUrl);
+            referenceImageUrl = streetViewUrl;
+            console.log("Street View image loaded successfully");
+        } catch (streetViewError: unknown) {
+            console.log("Street View failed, falling back to roadmap:", streetViewError instanceof Error ? streetViewError.message : String(streetViewError));
+            
+            // Fallback to roadmap
+            const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&zoom=15&size=512x512&maptype=roadmap&markers=color:red%7C${latitude},${longitude}&style=feature:poi|visibility:on&style=feature:transit|visibility:on&style=feature:road|element:labels|visibility:on&key=${mapsApiKey}`;
+            
+            imageBase64 = await urlToBase64(mapUrl);
+            referenceImageUrl = mapUrl;
+            console.log("Roadmap image loaded as fallback");
+        }
 
         // 3. Prepare the prompt and image parts for the API
         let styleDescription = '';
@@ -67,10 +84,7 @@ export async function POST(request: Request) {
                 styleDescription = `Strong ${style} aesthetic applied to the entire scene`;
         }
 
-        let prompt = `Generate a street-level photo from the red marker location. Show a ${style} scene populated EXCLUSIVELY
-         by ${population} population. ${styleDescription}. CRITICAL: The scene must ONLY contain ${population} population as 
-         inhabitants - they should be humanized (walking, dressed like humans, acting like people). NO humans, NO other creatures, 
-         ONLY ${population} population. View from human eye level. Create visual image only.`;
+        let prompt = `Based on this street-level reference image, generate a new street-level photo showing a ${style} scene populated EXCLUSIVELY by ${population} population. ${styleDescription}. CRITICAL: The scene must ONLY contain ${population} population as inhabitants - they should be humanized (walking, dressed like humans, acting like people). NO humans, NO other creatures, ONLY ${population} population. View from human eye level. Create visual image only.`;
 
         if (timePeriod !== 'Present Day') {
             prompt += ` Set the scene in the ${timePeriod} era with appropriate architecture, clothing, and atmosphere for the ${population} population.`;
@@ -78,7 +92,7 @@ export async function POST(request: Request) {
 
         prompt += ` Remember: ONLY ${population} population acting as the inhabitants. Generate image only - no text or descriptions.`;
 
-        const imageParts = [fileToGenerativePart(mapImageBase64, imageMimeType)];
+        const imageParts = [fileToGenerativePart(imageBase64, imageMimeType)];
 
         // 4. Call the model with the prompt and image
         const result = await model.generateContent([prompt, ...imageParts]);
@@ -103,7 +117,7 @@ export async function POST(request: Request) {
             console.log("Image data length:", base64ImageData.length);
             return NextResponse.json({ 
                 imageData: imageDataUrl,
-                referenceMapUrl: mapUrl 
+                referenceMapUrl: referenceImageUrl 
             });
         } else {
             const textResponse = result.response.text();

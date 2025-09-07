@@ -98,14 +98,17 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({ generatedImage, isLoading, 
               </button>
             </div>
             <div className="p-4 flex justify-center">
-              <img 
+              <Image 
                 src={referenceMapUrl} 
                 alt="Reference map used for AI generation" 
+                width={800}
+                height={600}
                 className="max-w-full max-h-[70vh] object-contain rounded-lg border"
+                unoptimized={true}
               />
             </div>
             <div className="p-4 border-t border-gray-200 bg-gray-50 text-sm text-gray-600">
-              <p>This is the Google Maps image that was sent to the AI as reference. The red marker shows the exact viewpoint location.</p>
+              <p>This is the reference image sent to the AI. It shows either a Street View photo of the location (if available) or a Google Maps roadmap as fallback.</p>
             </div>
           </div>
         </div>
